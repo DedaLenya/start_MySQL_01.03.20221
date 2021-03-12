@@ -1,0 +1,33 @@
+Task3
+
+После выполнения скрипта второго задания, имеем БД example
+
+Перенаправляем данные дампа в новый файл example.sql командой mysqldump из командной строки
+C:\Users\ip66>mysqldump example > example.sql
+
+Для переноса файла дампа, создаем новую БД
+
+CREATE DATABASE IF NOT EXISTS sample;
+
+Загружаем дамп в БД
+C:\Users\ip66>mysql sample < example.sql
+
+Проверяем
+
+C:\Users\ip66>mysql
+Welcome to the MySQL monitor.
+mysql> use sample
+Database changed
+
+mysql> show tables;
++------------------+
+| Tables_in_sample |
++------------------+
+| users            |
++------------------+
+1 row in set (0.00 sec)
+
+mysql>
+
+
+
