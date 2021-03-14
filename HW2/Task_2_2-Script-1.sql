@@ -1,0 +1,19 @@
+DROP DATABASE IF EXISTS example;
+
+CREATE DATABASE IF NOT EXISTS example;
+
+USE example;
+
+CREATE TABLE IF NOT EXISTS users (
+	id INT, name VARCHAR(255) DEFAULT 'anonymus'
+);
+
+INSERT INTO users VALUES (DEFAULT, 'newb');
+
+
+SELECT * FROM users;
+
+
+
+
+

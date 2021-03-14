@@ -1,0 +1,7 @@
+
+Сортируем по первому столбцу командой ORDER BY help_keyword_id
+Ограничиваем количество строк limit 100
+
+
+
+C:\Users\ip66>mysqldump --opt --where="1 ORDER BY help_keyword_id limit 100" mysql help_keyword > help_keyword_dump100.sql
