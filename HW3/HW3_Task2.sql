@@ -149,6 +149,7 @@ CREATE TABLE media (
   created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   INDEX  fk_media_media_types_idx  (media_types_id),
   INDEX  fk_media_users_idx (user_id),
+  INDEX  fk_media_media_idx (id),
   CONSTRAINT fk_media_users FOREIGN KEY (user_id) REFERENCES users (id),
   CONSTRAINT fk_media_media_types FOREIGN KEY (media_types_id) REFERENCES media_types (id)
   
@@ -172,32 +173,31 @@ f. Посты в сообществе */
 
 CREATE TABLE new_post_user (
 	id bigint UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-	from_user_id bigint UNSIGNED NOT NULL ,
+	user_id bigint UNSIGNED NOT NULL ,
 	visible_all boolean DEFAULT TRUE,
 	txt_post text NOT NULL,
-	media_id int UNSIGNED DEFAULT NULL, 
+	media_id bigint UNSIGNED DEFAULT NULL, 
 	created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
 	INDEX  fk_new_post_user_media_idx (media_id),
-	INDEX  fk_new_post_user_idx (from_user_id),
-    CONSTRAINT fk_new_post_user_users FOREIGN KEY (from_user_id) REFERENCES users (id),
-    CONSTRAINT fk_media_id FOREIGN KEY (media_id) REFERENCES media (id)
+	INDEX  fk_new_post_user_idx (user_id),
+    CONSTRAINT fk_new_post_user_users FOREIGN KEY (user_id) REFERENCES users (id),
+    CONSTRAINT fk_new_post_user_media FOREIGN KEY (media_id) REFERENCES media (id)
 );
  
-DESCRIBE new_post_user ;
 
-CREATE TABLE likes (	
-	users_id int UNSIGNED NOT NULL PRIMARY KEY,
--- 	media_id int UNSIGNED NULL DEFAULT NULL,
-	new_post_user_id int UNSIGNED NULL DEFAULT NULL,
+CREATE TABLE likes (
+	like_id bigint UNSIGNED NOT NULL,
+	user_id bigint UNSIGNED NOT NULL,	
+	new_post_user_id bigint UNSIGNED NULL DEFAULT NULL,
+	PRIMARY KEY (like_id, user_id),	
 	created_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	INDEX fk_likes_users_idx (users_id),
--- 	INDEX fk_likes_media_idx (media_id),
+	INDEX fk_likes_users_idx (user_id),
+	INDEX fk_likes_likes_idx (like_id),
 	INDEX fk_likes_new_post_user_idx (new_post_user_id),
-	CONSTRAINT fk_likes_users FOREIGN KEY (users_id) REFERENCES users (id),
--- 	CONSTRAINT fk_likes_media FOREIGN KEY (media_id) REFERENCES media (id),
-	CONSTRAINT fk_likes_new_post FOREIGN KEY (new_post_user_id) REFERENCES new_post_user (id)
+	CONSTRAINT fk_likes_users FOREIGN KEY (user_id) REFERENCES users (id),
+	CONSTRAINT fk_likes_new_post_user FOREIGN KEY (new_post_user_id) REFERENCES new_post_user (id)
+	
 );
-
 
 
